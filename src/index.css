@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import 'tailwindcss';
+
+html {
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: NetflixSans, sans-serif;
+  src: url('/public/Font/NetflixSans.otf');
+}
+
+@theme {
+  /* ----- Fonts ----- */
+  --font-netflix-sans: 'NetflixSans', sans-serif;
+  --font-rubik: 'Rubik', sans-serif;
+
+  /* ----- Colors ----- */
+  --color-base-primary: #181819;
+  --color-base-secondary: #1f1e24;
+  --color-base-tertiary: #27272a;
+
+  --color-accent-primary: #6556cd;
+  --color-accent-hover: #5a4bc4;
+}
