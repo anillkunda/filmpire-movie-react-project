@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { SideNav } from '../components/partials';
+import { SideNav, TopNav } from '../components/partials';
 
 const Home = () => {
   useEffect(() => {
@@ -9,7 +9,9 @@ const Home = () => {
   return (
     <>
       <SideNav />
-      <div className="w-full h-full"></div>
+      <div className="w-full h-full">
+        <TopNav />
+      </div>
     </>
   );
 };
