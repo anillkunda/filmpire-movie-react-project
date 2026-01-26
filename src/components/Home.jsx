@@ -12,6 +12,8 @@ const Home = () => {
   const [wallpaper, setWallpaper] = useState(null);
   const [trending, setTrending] = useState([]);
   const [category, setCategory] = useState('all');
+  const [popular, setPopular] = useState([]);
+  const [upcoming, setUpcoming] = useState([]);
 
   useEffect(() => {
     document.title = 'Filmpire | Homepage';
@@ -48,6 +50,8 @@ const Home = () => {
   // Fetch trending, popular, and upcoming data
   useEffect(() => {
     fetchData(`/trending/${category}/day`, setTrending);
+    fetchData('/movie/popular', setPopular);
+    fetchData('/movie/upcoming', setUpcoming);
   }, [category]);
 
   if (!wallpaper) {
@@ -79,6 +83,16 @@ const Home = () => {
         </div>
 
         <HorizontalCards data={trending} />
+
+        <h2 className="text-white text-2xl md:text-4xl font-netflix-medium mt-5">
+          Popular Movies
+        </h2>
+        <HorizontalCards data={popular} />
+
+        <h2 className="text-white text-2xl md:text-4xl font-netflix-medium mt-5">
+          Upcoming Releases
+        </h2>
+        <HorizontalCards data={upcoming} />
       </main>
     </div>
   );
