@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @import 'tailwindcss';
 
 html {
@@ -6,16 +5,27 @@ html {
 }
 
 @font-face {
-  font-family: NetflixSans, sans-serif;
-  src: url('/public/Font/NetflixSans.otf');
+  font-family: 'NetflixSans-regular';
+  src: url("/public/Font/NetflixSans-Regular.otf");
+}
+
+@font-face {
+  font-family: 'NetflixSans-Medium';
+  src: url("/public/Font/NetflixSans-Medium.otf");
+}
+
+@font-face {
+  font-family: 'NetflixSans-bold';
+  src: url("/public/Font/NetflixSans-Bold.otf");
 }
 
 @theme {
-  /* ----- Fonts ----- */
-  --font-netflix-sans: 'NetflixSans', sans-serif;
-  --font-rubik: 'Rubik', sans-serif;
+  /* Fonts */
+  --font-netflix-regular: 'NetflixSans-regular', sans-serif; 
+  --font-netflix-medium: 'NetflixSans-Medium', sans-serif; 
+  --font-netflix-bold: 'NetflixSans-bold', sans-serif;
 
-  /* ----- Colors ----- */
+  /* Colors */
   --color-base-primary: #181819;
   --color-base-secondary: #1f1e24;
   --color-base-tertiary: #27272a;
@@ -25,23 +35,38 @@ html {
 }
 
 @layer base {
+  body {
+    @apply bg-base-primary text-white font-netflix-regular;
+  } 
+
   ::-webkit-scrollbar {
     width: 9px;
     height: 9px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
     background: var(--color-base-secondary);
     border-radius: 10px;
     border: 1px solid transparent;
     background-clip: padding-box;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-accent-hover);
-    border-radius: 10px;
-    border: 1px solid transparent;
-    background-clip: padding-box;
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;   
+    scrollbar-width: none;      
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;              
   }
 }

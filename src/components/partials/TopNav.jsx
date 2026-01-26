@@ -1,12 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
 import axios from '../../utils/axios';
 import { Link } from 'react-router-dom';
-import { noImage } from '../../../public';
+import { noMovie } from '../../../public';
 
 const TopNav = () => {
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
+  // Fetch search data
   const getSearches = useCallback(async () => {
     if (!query.trim()) {
       setSearchResults([]);
@@ -14,79 +15,70 @@ const TopNav = () => {
     }
 
     try {
-      const { data } = await axios.get(
+      const response = await axios.get(
         `/search/multi?query=${encodeURIComponent(query)}`,
       );
-      setSearchResults(data?.results || []);
+
+      setSearchResults(response.data?.results || []);
     } catch (error) {
-      console.error('Error fetching search results:', error);
+      console.log('Search Error:', error);
     }
   }, [query]);
 
   useEffect(() => {
-    const delay = setTimeout(() => {
+    const timer = setTimeout(() => {
       getSearches();
-    }, 200);
+    }, 250);
 
-    return () => clearTimeout(delay);
+    return () => clearTimeout(timer);
   }, [getSearches]);
 
   return (
-    // Sticky navigation bar that stays at the top
-    <nav className="w-full sticky top-0 z-30 bg-base-primary px-3 py-4 pl-18">
+    <nav className="w-full sticky top-0 z-30 bg-base-primary py-4">
       <div className="max-w-2xl mx-auto">
         <div className="relative">
           <div className="-skew-x-6 bg-transparent">
-            <div className="flex items-center gap-3 py-3 px-4 skew-x-6">
+            <div className="flex items-center gap-3 py-3 skew-x-6">
               <ion-icon
                 name="search-outline"
-                style={{ color: '#ffffff', fontSize: '22px' }}
+                className="text-xl md:text-2xl text-white"
               />
-
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Search movies…"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="flex-1 bg-transparent text-white placeholder:text-zinc-400 outline-none text-base md:text-lg font-rubik"
+                className="flex-1 bg-transparent text-white placeholder:text-zinc-400 outline-none text-lg md:text-xl min-h-[30px]"
               />
-
-              {query.length > 0 && (
-                <ion-icon
-                  name="close"
-                  style={{
-                    color: '#ffffff',
-                    fontSize: '26px',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => setQuery('')}
-                />
-              )}
             </div>
           </div>
 
-          {/* Search Results Dropdown */}
+          {/* SEARCH RESULTS */}
           {searchResults.length > 0 && (
-            <div className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-4xl max-h-[50vh] bg-zinc-200 mt-2 rounded overflow-auto">
-              {searchResults.map((s) => (
+            <div className="absolute top-full left-1/2 -translate-x-1/2 w-full max-w-4xl max-h-[50vh] bg-zinc-200 mt-2 rounded overflow-auto shadow-xl">
+              {searchResults.map((item) => (
                 <Link
-                  key={s.id}
-                  className="hover:text-black hover:bg-zinc-300 duration-300 font-semibold text-zinc-600 flex items-center gap-3 p-4 md:p-6 border-b border-zinc-300"
+                  key={item.id}
+                  onClick={() => setQuery('')}
+                  className="flex items-center gap-3 p-4 md:p-6 border-b border-zinc-300 hover:bg-zinc-300 transition"
                 >
                   <img
-                    className="w-[8vh] h-[8vh] md:w-[10vh] md:h-[10vh] object-cover rounded mr-1 md:mr-3 shadow-lg"
+                    className="w-[8vh] h-[8vh] md:w-[10vh] md:h-[10vh] object-cover rounded shadow-lg"
                     src={
-                      s.backdrop_path || s.profile_path
+                      item.backdrop_path || item.profile_path
                         ? `https://image.tmdb.org/t/p/original/${
-                            s.backdrop_path || s.profile_path
+                            item.backdrop_path || item.profile_path
                           }`
-                        : noImage
+                        : noMovie
                     }
-                    alt={s.name || s.title || 'image'}
+                    alt={item.name || item.title || 'image'}
                   />
 
-                  <span className="text-black text-sm md:text-lg font-medium font-netflix-sans line-clamp-1">
-                    {s.name || s.title || s.original_name || s.original_title}
+                  <span className="text-black text-sm md:text-lg font-medium line-clamp-1">
+                    {item.name ||
+                      item.title ||
+                      item.original_name ||
+                      item.original_title}
                   </span>
                 </Link>
               ))}

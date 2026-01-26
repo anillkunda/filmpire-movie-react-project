@@ -9,32 +9,37 @@ const Home = () => {
     document.title = 'Filmpire | Homepage';
   }, []);
 
+  // Fetch random wallpaper
   const getWallpaper = useCallback(async () => {
     try {
-      const { data } = await axios.get('/trending/all/day');
-      const randomIndex = Math.floor(Math.random() * data.results.length);
-      setWallpaper(data.results[randomIndex]);
+      const response = await axios.get('/trending/all/day');
+      const results = response.data.results;
+
+      const randomIndex = Math.floor(Math.random() * results.length);
+      setWallpaper(results[randomIndex]);
     } catch (error) {
-      console.error('Error fetching wallpaper data:', error);
+      console.log('Wallpaper Error:', error);
     }
   }, []);
 
+  // Load wallpaper once
   useEffect(() => {
-    if (!wallpaper) {
-      getWallpaper();
-    }
-  }, [wallpaper, getWallpaper]);
+    getWallpaper();
+  }, [getWallpaper]);
 
-  return wallpaper ? (
-    <>
+  if (!wallpaper) {
+    return <h1 className="text-white p-10">Loading...</h1>;
+  }
+
+  return (
+    <div className="flex w-full min-h-screen bg-base-primary">
       <SideNav />
-      <div className="w-full h-full px-2 md:px-4">
+
+      <main className="flex-1 min-h-screen overflow-y-auto hide-scrollbar px-3 md:px-6">
         <TopNav />
         <Header data={wallpaper} />
-      </div>
-    </>
-  ) : (
-    <h1>Loading...</h1>
+      </main>
+    </div>
   );
 };
 
