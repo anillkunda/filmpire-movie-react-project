@@ -38,6 +38,17 @@ html {
   body {
     @apply bg-base-primary text-white font-netflix-regular;
   } 
+  
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    outline: none;
+    background-color: #27272a;
+    color: #fff;
+    cursor: pointer;
+  }
 
   ::-webkit-scrollbar {
     width: 9px;
@@ -57,6 +68,12 @@ html {
 
   ::-webkit-scrollbar-thumb:hover {
     background: var(--color-accent-hover);
+  }
+}
+
+@layer components {
+  .select {
+    @apply h-12 leading-none rounded-lg bg-zinc-800;
   }
 }
 
