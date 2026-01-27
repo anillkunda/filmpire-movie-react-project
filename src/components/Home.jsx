@@ -7,6 +7,7 @@ import {
   Dropdown,
   HorizontalCards,
 } from '../components/partials';
+import { Loading } from '../components';
 
 const Home = () => {
   const [wallpaper, setWallpaper] = useState(null);
@@ -55,7 +56,7 @@ const Home = () => {
   }, [category]);
 
   if (!wallpaper) {
-    return <h1 className="text-white p-10">Loading...</h1>;
+    return <Loading />;
   }
 
   return (
